@@ -13,6 +13,7 @@ enum class Symbol { a, b };
 struct CollisionManifold {
     Symbol object_that_normal_exists_on;
     glm::vec3 normal_generating_least_overlap;
+    // if this is positive then there is a collision
     float penetration;
     std::vector<glm::vec3> contact_points; // optional for now
 };
