@@ -108,4 +108,35 @@ CollisionManifold detect_convex_collision(const draw_info::IndexedVertexPosition
 
     return manifold;
 }
+
+// TODO: in future use enum rather than string axis name.
+void resolve_aabb_collision_on_axis(float &position, float &velocity, float min_a, float max_a, float min_b,
+                                    float max_b, const std::string &axis_name) {
+    GlobalLogSection _("resolve_aabb_collision_on_axis", LogSection::LogMode::enable);
+    if (velocity > 0.0f) {
+        // moving positive direction
+        float penetration = max_a - min_b;
+        global_logger->debug("collision on {} axis (positive): pos = {}, vel = {}, penetration = {}", axis_name,
+                             position, velocity, penetration);
+
+        position -= penetration;
+        velocity = 0.0f;
+
+        global_logger->debug("resolved collision on {} axis: new pos = {}, new vel = {}", axis_name, position,
+                             velocity);
+
+    } else if (velocity < 0.0f) {
+        // moving negative direction
+        float penetration = max_b - min_a;
+        global_logger->debug("collision on {} axis (negative): pos = {}, vel = {}, penetration = {}", axis_name,
+                             position, velocity, penetration);
+
+        position += penetration;
+        velocity = 0.0f;
+
+        global_logger->debug("resolved collision on {} axis: new pos = {}, new vel = {}", axis_name, position,
+                             velocity);
+    }
+}
+
 } // namespace collision_utils

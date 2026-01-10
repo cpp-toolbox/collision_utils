@@ -21,6 +21,9 @@ struct CollisionManifold {
 CollisionManifold detect_convex_collision(const draw_info::IndexedVertexPositions &a, const glm::vec3 &posA,
                                           const draw_info::IndexedVertexPositions &b, const glm::vec3 &posB);
 
+void resolve_aabb_collision_on_axis(float &position, float &velocity, float min_a, float max_a, float min_b,
+                                    float max_b, const std::string &axis_name);
+
 } // namespace collision_utils
 
 #endif // COLLISION_UTILS_HPP
